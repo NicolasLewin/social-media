@@ -14,16 +14,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en">
       <body>
-        <div className="min-h-screen dark:bg-black dark:text-white">
+        <div className="min-h-screen bg-gray-50 dark:bg-black dark:text-white">
           <div className="flex h-screen">
             <nav className="flex flex-col p-2 md:w-64 w-20 border-r border-gray-200 dark:border-gray-800">
               <div className="p-3">
                 <div className="w-8 h-8 bg-green-500 rounded-full"></div>
               </div>
-              <div className="space-y-2">
-                <NavItem icon={Home} label="Home" />
+              <div className="space-y-2 dark:text-white">
+                <NavItem icon={Home} label="Home"/>
                 <NavItem icon={Search} label="Explore" />
                 <NavItem icon={Bell} label="Notifications" />
                 <NavItem icon={Mail} label="Messages" />
