@@ -23,3 +23,12 @@ model User {
   followingIds String[] @db.ObjectId
   hasNotification Boolean? 
 }
+
+model Comment {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  body String
+  createdAt DateTime @default(now())
+  updatetAt DateTime @updatedAt
+  userId String @db.ObjectId
+  postId String @db.ObjectId
+}
