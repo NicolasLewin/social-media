@@ -21,7 +21,11 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   followingIds String[] @db.ObjectId
-  hasNotification Boolean? 
+  hasNotification Boolean?
+
+  comments Comment[]
+  posts Post[]
+  notifications Notification[]
 }
 
 model Comment {
@@ -31,6 +35,9 @@ model Comment {
   updatetAt DateTime @updatedAt
   userId String @db.ObjectId
   postId String @db.ObjectId
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
 }
 
 model Post {
@@ -40,6 +47,10 @@ model Post {
   updatedAt DateTime @updatedAt
   userId String @db.ObjectId
   likedIds String[] @db.ObjectId
+
+  comments Comment[]
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Notification {
@@ -47,4 +58,6 @@ model Notification {
   body String
   userId String @db.ObjectId
   createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
