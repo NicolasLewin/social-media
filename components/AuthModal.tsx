@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { X } from 'lucide-react';
 import { signIn } from 'next-auth/react';
+import { useCurrentUser } from '@/hooks/useCurrentUser';
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -8,6 +9,7 @@ interface AuthModalProps {
 }
 
 export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
+  const { isAuthenticated } = useCurrentUser();
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -17,13 +19,18 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
 
   if (!isOpen) return null;
 
+  const handleClose = () => {
+    if (isAuthenticated) {
+      onClose();
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
 
     try {
       if (isLogin) {
-        // Handle sign in
         const result = await signIn('credentials', {
           email,
           password,
@@ -32,9 +39,13 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
 
         if (result?.error) {
           setError('Invalid credentials');
+          return;
+        }
+
+        if (result?.ok) {
+          onClose();
         }
       } else {
-        // Handle sign up
         const res = await fetch('/api/register', {
           method: 'POST',
           headers: {
@@ -53,15 +64,16 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
           throw new Error(data.error || 'Something went wrong');
         }
 
-        // Auto login after successful registration
-        await signIn('credentials', {
+        const signInResult = await signIn('credentials', {
           email,
           password,
           redirect: false,
         });
-      }
 
-      onClose();
+        if (signInResult?.ok) {
+          onClose();
+        }
+      }
     } catch (err) {
       setError(err.message || 'Something went wrong');
     }
@@ -70,14 +82,16 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white dark:bg-gray-900 rounded-xl p-6 w-full max-w-md relative">
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
-        >
-          <X className="h-6 w-6" />
-        </button>
+        {isAuthenticated && (
+          <button
+            onClick={handleClose}
+            className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+          >
+            <X className="h-6 w-6" />
+          </button>
+        )}
         
-        <h2 className="text-2xl font-bold mb-6 text-black dark:text-white">
+        <h2 className="text-2xl font-bold mb-6 dark:text-white">
           {isLogin ? 'Sign In' : 'Create Account'}
         </h2>
 
@@ -92,7 +106,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-black dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                   required
                 />
               </div>
@@ -104,7 +118,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                   type="text"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-black dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                   required
                 />
               </div>
@@ -119,7 +133,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-black dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
               required
             />
           </div>
@@ -132,7 +146,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-black dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
               required
             />
           </div>
