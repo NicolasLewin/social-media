@@ -1,12 +1,19 @@
+"use client"
+
 import { Bell, Home, Mail, PenSquare, Search, Settings, User } from "lucide-react";
 import NavItem from "@/components/NavItem";
 import { ThemeToggle } from "@/providers/ThemeProvider";
+import { useState } from "react";
+import PostModal from "./PostModal";
 
 interface SidebarProps {
   children: React.ReactNode;
 }
 
 export default function Sidebar({ children }: SidebarProps) {
+
+  const [isPostModalOpen, setIsPostModalOpen] = useState(false);
+  
   return (
     <div className="flex h-screen">
       <nav className="flex flex-col justify-between p-2 md:w-64 w-20 border-r border-gray-200 dark:border-gray-800">
@@ -22,10 +29,16 @@ export default function Sidebar({ children }: SidebarProps) {
             <NavItem icon={User} label="Profile" />
             <NavItem icon={Settings} label="Settings" />
           </div>
-          <button className="mt-6 w-full bg-green-500 hover:bg-green-600 text-white rounded-full p-4 transition-colors duration-200">
+          <button 
+            onClick={() => setIsPostModalOpen(true)} 
+            className="mt-6 w-full bg-green-500 hover:bg-green-600 text-white rounded-full p-4 transition-colors duration-200">
             <PenSquare className="md:hidden h-7 w-7 mx-auto" />
             <span className="hidden md:inline">Post</span>
           </button>
+          <PostModal 
+            isOpen={isPostModalOpen}
+            onClose={() => setIsPostModalOpen(false)}
+          />
         </div>
         <div className="ml-2 mt-2 mb-4 text-black dark:text-white">
           <ThemeToggle />
