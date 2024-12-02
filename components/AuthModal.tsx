@@ -91,7 +91,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
           </button>
         )}
         
-        <h2 className="text-2xl font-bold mb-6 dark:text-white">
+        <h2 className="text-2xl font-bold mb-6 text-black dark:text-white">
           {isLogin ? 'Sign In' : 'Create Account'}
         </h2>
 
@@ -106,7 +106,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+                  className="mt-1 block w-full rounded-md border text-black border-gray-300 px-3 py-2 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                   required
                 />
               </div>
@@ -118,7 +118,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                   type="text"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+                  className="mt-1 block w-full rounded-md border text-black border-gray-300 px-3 py-2 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                   required
                 />
               </div>
@@ -133,7 +133,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+              className="mt-1 block w-full rounded-md border text-black border-gray-300 px-3 py-2 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
               required
             />
           </div>
@@ -146,7 +146,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+              className="mt-1 block w-full rounded-md border text-black border-gray-300 px-3 py-2 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
               required
             />
           </div>
