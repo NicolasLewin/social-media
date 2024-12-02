@@ -4,6 +4,7 @@ import { ThemeProvider } from "@/providers/ThemeProvider";
 import SessionProvider from "@/providers/SessionProvider";
 import AuthWrapper from "@/components/AuthWrapper";
 import Sidebar from "@/components/Sidebar";
+import { Toaster } from 'react-hot-toast';
 
 export const metadata: Metadata = {
   title: "Social Media",
@@ -33,6 +34,7 @@ export default function RootLayout({
         />
       </head>
       <body>
+        <Toaster />
         <ThemeProvider>
           <SessionProvider>
             <AuthWrapper>
