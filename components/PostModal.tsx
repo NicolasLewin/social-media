@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { X } from "lucide-react";
 import toast from "react-hot-toast";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { usePosts } from "@/providers/PostsProvider";
 
 interface PostModalProps {
     isOpen: boolean;
@@ -10,6 +12,8 @@ interface PostModalProps {
 export default function PostModal({isOpen, onClose}: PostModalProps) {
     const [content, setContent] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const { addPost } = usePosts();
+    const { user } = useCurrentUser();
 
     if(!isOpen) return null;
     
@@ -30,7 +34,9 @@ export default function PostModal({isOpen, onClose}: PostModalProps) {
           if (!response.ok) {
             throw new Error('Failed to create post');
           }
-    
+
+          const newPost = await response.json();
+          addPost({ ...newPost, user });
           toast.success('Post created successfully!');
           setContent('');
           onClose();
