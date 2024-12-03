@@ -5,6 +5,7 @@ import SessionProvider from "@/providers/SessionProvider";
 import AuthWrapper from "@/components/AuthWrapper";
 import Sidebar from "@/components/Sidebar";
 import { Toaster } from 'react-hot-toast';
+import { PostsProvider } from "@/providers/PostsProvider";
 
 export const metadata: Metadata = {
   title: "Social Media",
@@ -37,11 +38,13 @@ export default function RootLayout({
         <Toaster />
         <ThemeProvider>
           <SessionProvider>
-            <AuthWrapper>
-              <div className="min-h-screen bg-gray-50 dark:bg-black dark:text-white">
-                <Sidebar>{children}</Sidebar>
-              </div>
-            </AuthWrapper>
+            <PostsProvider>
+              <AuthWrapper>
+                <div className="min-h-screen bg-gray-50 dark:bg-black dark:text-white">
+                  <Sidebar>{children}</Sidebar>
+                </div>
+              </AuthWrapper>
+            </PostsProvider>
           </SessionProvider>
         </ThemeProvider>
       </body>
