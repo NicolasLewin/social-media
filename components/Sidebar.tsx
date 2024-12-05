@@ -22,11 +22,11 @@ export default function Sidebar({ children }: SidebarProps) {
             <div className="w-8 h-8 bg-green-500 rounded-full"></div>
           </div>
           <div className="space-y-2 dark:text-white">
-            <NavItem icon={Home} label="Home"/>
+            <NavItem icon={Home} label="Home" href="/"/>
             <NavItem icon={Search} label="Explore" />
             <NavItem icon={Bell} label="Notifications" />
             <NavItem icon={Mail} label="Messages" />
-            <NavItem icon={User} label="Profile" />
+            <NavItem icon={User} label="Profile" href="/profile" />
             <NavItem icon={Settings} label="Settings" />
           </div>
           <button 
