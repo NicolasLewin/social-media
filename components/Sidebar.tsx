@@ -1,6 +1,6 @@
 "use client"
 
-import { Bell, Home, Mail, PenSquare, Search, Settings, User } from "lucide-react";
+import { Bell, Home, Mail, PenSquare, Search, User } from "lucide-react";
 import NavItem from "@/components/NavItem";
 import { ThemeToggle } from "@/providers/ThemeProvider";
 import { useState } from "react";
@@ -27,7 +27,6 @@ export default function Sidebar({ children }: SidebarProps) {
             <NavItem icon={Bell} label="Notifications" />
             <NavItem icon={Mail} label="Messages" />
             <NavItem icon={User} label="Profile" href="/profile" />
-            <NavItem icon={Settings} label="Settings" />
           </div>
           <button 
             onClick={() => setIsPostModalOpen(true)} 
