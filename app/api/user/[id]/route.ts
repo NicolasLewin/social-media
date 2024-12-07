@@ -3,6 +3,46 @@ import { getServerSession } from 'next-auth';
 import prisma from '@/lib/prismadb';
 import { authOptions } from '@/lib/auth';
 
+export async function GET(
+  request: Request,
+  { params }: { params: { username: string } }
+) {
+  try {
+    const { username } = params;
+
+    if (!username) {
+      return new NextResponse('Username is required', { status: 400 });
+    }
+
+    const user = await prisma.user.findUnique({
+      where: {
+        username: username
+      },
+      select: {
+        id: true,
+        name: true,
+        username: true,
+        bio: true,
+        email: true,
+        image: true,
+        coverImage: true,
+        profileImage: true,
+        createdAt: true,
+        followingIds: true
+      }
+    });
+
+    if (!user) {
+      return new NextResponse('User not found', { status: 404 });
+    }
+
+    return NextResponse.json(user);
+  } catch (error) {
+    console.error(error);
+    return new NextResponse('Internal Error', { status: 500 });
+  }
+}
+
 export async function PATCH(req: Request) {
   try {
     const session = await getServerSession(authOptions);
