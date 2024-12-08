@@ -5,13 +5,14 @@ import NavItem from "@/components/NavItem";
 import { ThemeToggle } from "@/providers/ThemeProvider";
 import { useState } from "react";
 import PostModal from "./PostModal";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 
 interface SidebarProps {
   children: React.ReactNode;
 }
 
 export default function Sidebar({ children }: SidebarProps) {
-
+  const { user } = useCurrentUser();
   const [isPostModalOpen, setIsPostModalOpen] = useState(false);
   
   return (
@@ -26,7 +27,7 @@ export default function Sidebar({ children }: SidebarProps) {
             <NavItem icon={Search} label="Explore" />
             <NavItem icon={Bell} label="Notifications" />
             <NavItem icon={Mail} label="Messages" />
-            <NavItem icon={User} label="Profile" href="/profile" />
+            <NavItem icon={User} label="Profile" href={user ? `/user/${user.id}` : '/'} />
           </div>
           <button 
             onClick={() => setIsPostModalOpen(true)} 
