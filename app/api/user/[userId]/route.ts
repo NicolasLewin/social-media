@@ -5,18 +5,18 @@ import { authOptions } from '@/lib/auth';
 
 export async function GET(
   request: Request,
-  { params }: { params: { username: string } }
+  { params }: { params: { userId: string } }
 ) {
   try {
-    const { username } = params;
+    const { userId } = params;
 
-    if (!username) {
-      return new NextResponse('Username is required', { status: 400 });
+    if (!userId) {
+      return new NextResponse('User ID is required', { status: 400 });
     }
 
     const user = await prisma.user.findUnique({
       where: {
-        username: username
+        id: userId
       },
       select: {
         id: true,

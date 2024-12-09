@@ -25,7 +25,7 @@ export default function EditProfileModal({ isOpen, onClose }: EditProfileModalPr
     setIsLoading(true);
 
     try {
-      const response = await fetch('/api/user/[id]', {
+      const response = await fetch('/api/user/[userId]', {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json'
