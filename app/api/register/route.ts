@@ -35,6 +35,9 @@ export async function POST(request: Request) {
         username,
         name,
         hashedPwd: hashedPassword,
+        bio: "",
+        followingIds: [],
+        hasNotification: false
       }
     });
 
