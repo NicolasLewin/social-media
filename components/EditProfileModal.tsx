@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import toast from 'react-hot-toast';
@@ -8,15 +8,46 @@ interface EditProfileModalProps {
   onClose: () => void;
 }
 
+interface FormData {
+  name: string;
+  bio: string;
+  profileImage: string;
+  coverImage: string;
+}
+
 export default function EditProfileModal({ isOpen, onClose }: EditProfileModalProps) {
   const { user } = useCurrentUser();
   const [isLoading, setIsLoading] = useState(false);
-  const [formData, setFormData] = useState({
-    name: user?.name || '',
-    bio: user?.bio || '',
-    profileImage: user?.profileImage || '',
-    coverImage: user?.coverImage || ''
+  const [formData, setFormData] = useState<FormData>({
+    name: '',
+    bio: '',
+    profileImage: '',
+    coverImage: ''
   });
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (!isOpen || !user?.id) return;
+      
+      try {
+        const response = await fetch(`/api/user/current`);
+        if (!response.ok) throw new Error('Failed to fetch user data');
+        
+        const data = await response.json();
+        setFormData({
+          name: data.name || '',
+          bio: data.bio || '',
+          profileImage: data.profileImage || '',
+          coverImage: data.coverImage || ''
+        });
+      } catch (error) {
+        toast.error('Failed to load profile data');
+        console.error(error);
+      }
+    };
+
+    fetchUserData();
+  }, [isOpen, user?.id]);
 
   if (!isOpen) return null;
 
@@ -25,7 +56,7 @@ export default function EditProfileModal({ isOpen, onClose }: EditProfileModalPr
     setIsLoading(true);
 
     try {
-      const response = await fetch('/api/user/[userId]', {
+      const response = await fetch('/api/user/current', {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json'
