@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import toast from 'react-hot-toast';
+import ImageUpload from './ImageUpload';
 
 interface EditProfileModalProps {
   isOpen: boolean;
@@ -77,7 +78,7 @@ export default function EditProfileModal({ isOpen, onClose }: EditProfileModalPr
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white dark:bg-gray-900 rounded-xl w-full max-w-md">
+      <div className="bg-white dark:bg-gray-900 rounded-xl w-full max-w-xl">
         <div className="flex items-center justify-between p-4 border-b dark:border-gray-800">
           <h2 className="text-xl font-bold text-black dark:text-white">Edit Profile</h2>
           <button
@@ -115,6 +116,20 @@ export default function EditProfileModal({ isOpen, onClose }: EditProfileModalPr
               rows={3}
             />
           </div>
+
+          <ImageUpload
+            value={formData.coverImage}
+            disabled={isLoading}
+            onChange={(value) => setFormData(prev => ({ ...prev, coverImage: value }))}
+            label="Cover Image"
+          />
+          
+          <ImageUpload
+            value={formData.profileImage}
+            disabled={isLoading}
+            onChange={(value) => setFormData(prev => ({ ...prev, profileImage: value }))}
+            label="Profile Image"
+          />
 
           <div className="flex justify-end pt-4 border-t dark:border-gray-800">
             <button
