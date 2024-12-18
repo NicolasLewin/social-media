@@ -47,21 +47,6 @@ export default function Sidebar({ children }: SidebarProps) {
       <main className="flex-1 border-r border-gray-200 dark:border-gray-800">
         {children}
       </main>
-      <aside className="hidden lg:block w-96 p-4">
-        <div className="bg-gray-100 dark:bg-gray-800 rounded-full p-3 mb-4">
-          <div className="flex items-center gap-2">
-            <Search className="h-5 w-5 text-gray-500" />
-            <input 
-              type="text" 
-              placeholder="Search" 
-              className="bg-transparent outline-none w-full dark:text-white"
-            />
-          </div>
-        </div>
-        <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-4">
-          <h2 className="text-xl font-bold mb-4">Trending</h2>
-        </div>
-      </aside>
     </div>
   );
 }
