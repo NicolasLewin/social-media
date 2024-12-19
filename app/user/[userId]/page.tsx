@@ -4,6 +4,7 @@ import { useState, useEffect, use } from 'react';
 import { Calendar } from 'lucide-react';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import EditProfileModal from '@/components/EditProfileModal';
+import UserPostFeed from '@/components/UserPostFeed';
 import type { User } from '@prisma/client';
 
 interface ProfilePageProps {
@@ -18,6 +19,7 @@ export default function ProfilePage({ params }: ProfilePageProps) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState('posts');
 
   const isOwnProfile = currentUser?.id === userId;
 
@@ -80,7 +82,6 @@ export default function ProfilePage({ params }: ProfilePageProps) {
                 )}
               </div>
             </div>
-            {/* TODO: add follow feature */}
             <div className="ml-auto space-x-2">
               {isOwnProfile ? (
                 <button
@@ -130,7 +131,34 @@ export default function ProfilePage({ params }: ProfilePageProps) {
             </div>
           </div>
         </div>
+
+        <div className="flex border-b dark:border-gray-800">
+          <button
+            onClick={() => setActiveTab('posts')}
+            className={`flex-1 py-4 text-center hover:bg-gray-100 dark:hover:bg-gray-800 transition
+                     ${activeTab === 'posts' ? 'border-b-2 border-green-500 font-semibold' : ''}`}
+          >
+            Posts
+          </button>
+          <button
+            onClick={() => setActiveTab('replies')}
+            className={`flex-1 py-4 text-center hover:bg-gray-100 dark:hover:bg-gray-800 transition
+                     ${activeTab === 'replies' ? 'border-b-2 border-green-500 font-semibold' : ''}`}
+          >
+            Replies
+          </button>
+        </div>
       </header>
+
+      {/*TODO: display replies from the user*/}
+      <div className="divide-y divide-gray-200 dark:divide-gray-800">
+        {activeTab === 'posts' && <UserPostFeed userId={userId} />}
+        {activeTab === 'replies' && (
+          <div className="flex justify-center items-center p-6 text-gray-500">
+            To be implemented
+          </div>
+        )}
+      </div>
 
       {isOwnProfile && (
         <EditProfileModal
