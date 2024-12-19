@@ -3,7 +3,7 @@ import { User } from "@prisma/client";
 import { MessageCircle } from 'lucide-react';
 import CommentForm from './CommentForm';
 import CommentCard from './CommentCard';
-
+import Image from 'next/image';
 
 interface Comment {
   id: string;
@@ -40,7 +40,22 @@ export default function PostCard({ post }: { post: PostProps }) {
     <div className="border-b border-gray-200 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-900 transition">
       <div className="p-4">
         <div className="flex gap-3">
-          <div className="w-10 h-10 bg-gray-200 dark:bg-gray-800 rounded-full" />
+          <div className="relative w-10 h-10 rounded-full overflow-hidden">
+            {post.user.profileImage ? (
+              <Image
+                src={post.user.profileImage}
+                alt={post.user.name || "Profile picture"}
+                fill
+                className="object-cover"
+              />
+            ) : (
+              <div className="w-full h-full bg-gray-200 dark:bg-gray-800 flex items-center justify-center">
+                <span className="text-gray-500 text-lg">
+                  {post.user.name?.[0]?.toUpperCase()}
+                </span>
+              </div>
+            )}
+          </div>
           <div className="flex-1">
             <div className="flex items-center gap-2">
               <span className="text-black dark:text-white font-semibold">{post.user.name}</span>
