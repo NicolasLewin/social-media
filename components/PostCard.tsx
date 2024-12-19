@@ -4,6 +4,7 @@ import { MessageCircle } from 'lucide-react';
 import CommentForm from './CommentForm';
 import CommentCard from './CommentCard';
 import Image from 'next/image';
+import Link from 'next/link';
 
 interface Comment {
   id: string;
@@ -40,7 +41,7 @@ export default function PostCard({ post }: { post: PostProps }) {
     <div className="border-b border-gray-200 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-900 transition">
       <div className="p-4">
         <div className="flex gap-3">
-          <div className="relative w-10 h-10 rounded-full overflow-hidden">
+          <Link href={`/user/${post.user.id}`} className="relative w-10 h-10 rounded-full overflow-hidden hover:opacity-80 transition">
             {post.user.profileImage ? (
               <Image
                 src={post.user.profileImage}
@@ -55,11 +56,15 @@ export default function PostCard({ post }: { post: PostProps }) {
                 </span>
               </div>
             )}
-          </div>
+          </Link>
           <div className="flex-1">
             <div className="flex items-center gap-2">
-              <span className="text-black dark:text-white font-semibold">{post.user.name}</span>
-              <span className="text-gray-500">@{post.user.username}</span>
+              <Link href={`/user/${post.user.id}`} className="hover:underline">
+                <span className="text-black dark:text-white font-semibold">{post.user.name}</span>
+              </Link>
+              <Link href={`/user/${post.user.id}`} className="hover:underline">
+                <span className="text-gray-500">@{post.user.username}</span>
+              </Link>
               <span className="text-gray-500">·</span>
               <span className="text-gray-500">
                 {new Date(post.createdAt).toLocaleDateString()}

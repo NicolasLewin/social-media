@@ -1,6 +1,7 @@
 import React from 'react';
 import { User } from '@prisma/client';
 import Image from 'next/image';
+import Link from 'next/link';
 
 interface CommentProps {
   id: string;
@@ -13,7 +14,7 @@ export default function CommentCard({ comment }: { comment: CommentProps }) {
   return (
     <div className="p-4 border-t border-gray-200 dark:border-gray-800 pl-12">
       <div className="flex gap-3">
-        <div className="relative w-8 h-8 rounded-full overflow-hidden">
+        <Link href={`/user/${comment.user.id}`} className="relative w-8 h-8 rounded-full overflow-hidden hover:opacity-80 transition">
           {comment.user.profileImage ? (
             <Image
               src={comment.user.profileImage}
@@ -28,11 +29,15 @@ export default function CommentCard({ comment }: { comment: CommentProps }) {
               </span>
             </div>
           )}
-        </div>
+        </Link>
         <div className="flex-1">
           <div className="flex items-center gap-2">
-            <span className="text-black dark:text-white font-semibold">{comment.user.name}</span>
-            <span className="text-gray-500 text-sm">@{comment.user.username}</span>
+            <Link href={`/user/${comment.user.id}`} className="hover:underline">
+              <span className="text-black dark:text-white font-semibold">{comment.user.name}</span>
+            </Link>
+            <Link href={`/user/${comment.user.id}`} className="hover:underline">
+              <span className="text-gray-500 text-sm">@{comment.user.username}</span>
+            </Link>
             <span className="text-gray-500 text-sm">·</span>
             <span className="text-gray-500 text-sm">
               {new Date(comment.createdAt).toLocaleDateString()}
