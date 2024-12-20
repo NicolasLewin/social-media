@@ -74,7 +74,7 @@ export default function PostCard({ post }: { post: PostProps }) {
             <div className="mt-3 flex items-center gap-2">
               <button
                 onClick={() => setIsCommenting(!isCommenting)}
-                className="flex items-center gap-1 text-gray-500 hover:text-green-500"
+                className="flex items-center gap-1 text-gray-500 hover:text-purple-500"
               >
                 <MessageCircle className="w-5 h-5" />
                 <span>{comments.length}</span>

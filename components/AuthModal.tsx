@@ -157,7 +157,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
 
           <button
             type="submit"
-            className="w-full bg-green-500 text-white rounded-full py-2 hover:bg-green-600 transition-colors"
+            className="w-full bg-purple-500 text-white rounded-full py-2 hover:bg-purple-600 transition-colors"
           >
             {isLogin ? 'Sign In' : 'Create Account'}
           </button>
@@ -167,7 +167,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
           {isLogin ? "Don't have an account? " : "Already have an account? "}
           <button
             onClick={() => setIsLogin(!isLogin)}
-            className="text-green-500 hover:text-green-600"
+            className="text-purple-500 hover:text-purple-600"
           >
             {isLogin ? 'Sign Up' : 'Sign In'}
           </button>

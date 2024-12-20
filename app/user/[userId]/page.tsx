@@ -43,7 +43,7 @@ export default function ProfilePage({ params }: ProfilePageProps) {
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-screen">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-500"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-500"></div>
       </div>
     );
   }
@@ -136,14 +136,14 @@ export default function ProfilePage({ params }: ProfilePageProps) {
           <button
             onClick={() => setActiveTab('posts')}
             className={`flex-1 py-4 text-center hover:bg-gray-100 dark:hover:bg-gray-800 transition
-                     ${activeTab === 'posts' ? 'border-b-2 border-green-500 font-semibold' : ''}`}
+                     ${activeTab === 'posts' ? 'border-b-2 border-purple-500 font-semibold' : ''}`}
           >
             Posts
           </button>
           <button
             onClick={() => setActiveTab('replies')}
             className={`flex-1 py-4 text-center hover:bg-gray-100 dark:hover:bg-gray-800 transition
-                     ${activeTab === 'replies' ? 'border-b-2 border-green-500 font-semibold' : ''}`}
+                     ${activeTab === 'replies' ? 'border-b-2 border-purple-500 font-semibold' : ''}`}
           >
             Replies
           </button>

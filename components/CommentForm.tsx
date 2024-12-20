@@ -57,7 +57,7 @@ export default function CommentForm({ postId, onCommentAdded }: CommentFormProps
             <button
               type="submit"
               disabled={!content.trim() || isLoading}
-              className="bg-green-500 hover:bg-green-600 disabled:opacity-50 
+              className="bg-purple-500 hover:bg-purple-600 disabled:opacity-50 
                        disabled:cursor-not-allowed text-white px-4 py-1 rounded-full text-sm"
             >
               {isLoading ? 'Sending...' : 'Comment'}

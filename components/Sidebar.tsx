@@ -21,7 +21,7 @@ export default function Sidebar({ children }: SidebarProps) {
         <nav className="flex flex-col justify-between p-2 md:w-64 w-20 h-full border-r border-gray-200 dark:border-gray-800 overflow-y-auto">
           <div>
             <div className="p-3">
-              <div className="w-8 h-8 bg-green-500 rounded-full"></div>
+              <div className="w-8 h-8 bg-purple-500 rounded-full"></div>
             </div>
             <div className="space-y-2 dark:text-white">
               <NavItem icon={Home} label="Home" href="/"/>
@@ -32,7 +32,7 @@ export default function Sidebar({ children }: SidebarProps) {
             </div>
             <button 
               onClick={() => setIsPostModalOpen(true)} 
-              className="mt-6 w-full bg-green-500 hover:bg-green-600 text-white rounded-full p-4 transition-colors duration-200"
+              className="mt-6 w-full bg-purple-500 hover:bg-purple-600 text-white rounded-full p-4 transition-colors duration-200"
             >
               <PenSquare className="md:hidden h-7 w-7 mx-auto" />
               <span className="hidden md:inline">Post</span>
