@@ -6,6 +6,7 @@ import { ThemeToggle } from "@/providers/ThemeProvider";
 import { useState } from "react";
 import PostModal from "./PostModal";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
+import AppLogo from "./AppLogo";
 
 interface SidebarProps {
   children: React.ReactNode;
@@ -21,7 +22,7 @@ export default function Sidebar({ children }: SidebarProps) {
         <nav className="flex flex-col justify-between p-2 md:w-64 w-20 h-full border-r border-gray-200 dark:border-gray-800 overflow-y-auto">
           <div>
             <div className="p-3">
-              <div className="w-8 h-8 bg-purple-500 rounded-full"></div>
+              <AppLogo />
             </div>
             <div className="space-y-2 dark:text-white">
               <NavItem icon={Home} label="Home" href="/"/>
