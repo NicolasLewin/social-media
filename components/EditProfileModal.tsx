@@ -71,6 +71,7 @@ export default function EditProfileModal({ isOpen, onClose }: EditProfileModalPr
       onClose();
     } catch (error) {
       toast.error('Failed to update profile');
+      console.error(error);
     } finally {
       setIsLoading(false);
     }
