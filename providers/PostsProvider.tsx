@@ -3,12 +3,20 @@
 import React, { createContext, useContext, useState, useCallback } from 'react';
 import { User } from '@prisma/client';
 
+interface Comment {
+  id: string;
+  body: string;
+  createdAt: string;
+  user: User;
+}
+
 interface Post {
   id: string;
   body: string;
   createdAt: string;
   user: User;
   likedIds: string[];
+  comments: Comment[];
 }
 
 interface PostsContextType {
@@ -23,7 +31,7 @@ export function PostsProvider({ children }: { children: React.ReactNode }) {
   const [posts, setPosts] = useState<Post[]>([]);
 
   const addPost = useCallback((newPost: Post) => {
-    setPosts((prev) => [newPost, ...prev]);
+    setPosts((prev) => [{ ...newPost, comments: [] }, ...prev]);
   }, []);
 
   return (
