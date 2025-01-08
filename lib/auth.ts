@@ -15,7 +15,7 @@ export const authOptions: AuthOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
-          throw new Error('Invalid credentials');
+          throw new Error('Please enter your email and password');
         }
 
         const user = await prisma.user.findUnique({
@@ -25,16 +25,16 @@ export const authOptions: AuthOptions = {
         });
 
         if (!user || !user?.hashedPwd) {
-          throw new Error('Invalid credentials');
+          throw new Error('No user found with this email');
         }
 
-        const isCorrectPassword = await bcrypt.compare(
+        const isValidPassword = await bcrypt.compare(
           credentials.password,
           user.hashedPwd
         );
 
-        if (!isCorrectPassword) {
-          throw new Error('Invalid credentials');
+        if (!isValidPassword) {
+          throw new Error('Incorrect password');
         }
 
         return user;
@@ -59,7 +59,9 @@ export const authOptions: AuthOptions = {
           }
         });
         
-        session.user = user;
+        if (user) {
+          session.user = user;
+        }
       }
       return session;
     },

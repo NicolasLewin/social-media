@@ -28,7 +28,6 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-
     try {
       if (isLogin) {
         const result = await signIn('credentials', {
@@ -36,16 +35,19 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
           password,
           redirect: false,
         });
-
         if (result?.error) {
-          setError('Invalid credentials');
+          setError(result.error);
           return;
         }
-
         if (result?.ok) {
           onClose();
         }
       } else {
+        if (!email || !password || !username || !name) {
+          setError('All fields are required');
+          return;
+        }
+  
         const res = await fetch('/api/register', {
           method: 'POST',
           headers: {
@@ -58,26 +60,29 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
             name,
           }),
         });
-
+  
+        const data = await res.json();
+  
         if (!res.ok) {
-          const data = await res.json();
-          throw new Error(data.error || 'Something went wrong');
+          setError(data.message || 'Something went wrong');
+          return;
         }
-
         const signInResult = await signIn('credentials', {
           email,
           password,
           redirect: false,
         });
-
+  
         if (signInResult?.ok) {
           onClose();
+        } else {
+          setError('Failed to sign in after registration');
         }
       }
     } catch (err) {
       setError(err.message || 'Something went wrong');
     }
-  };
+  }
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">

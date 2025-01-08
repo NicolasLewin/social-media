@@ -8,7 +8,26 @@ export async function POST(request: Request) {
     const { email, username, name, password } = body;
 
     if (!email || !username || !name || !password) {
-      return new NextResponse('Missing fields', { status: 400 });
+      return new NextResponse(
+        JSON.stringify({ message: 'All fields are required' }), 
+        { status: 400, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return new NextResponse(
+        JSON.stringify({ message: 'Invalid email format' }), 
+        { status: 400, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+
+    const usernameRegex = /^[a-zA-Z0-9_]+$/;
+    if (!usernameRegex.test(username)) {
+      return new NextResponse(
+        JSON.stringify({ message: 'Username can only contain letters, numbers, and underscores' }), 
+        { status: 400, headers: { 'Content-Type': 'application/json' } }
+      );
     }
 
     const existingUser = await prisma.user.findFirst({
@@ -21,9 +40,10 @@ export async function POST(request: Request) {
     });
 
     if (existingUser) {
+      const field = existingUser.email === email ? 'email' : 'username';
       return new NextResponse(
-        'Email or username already exists',
-        { status: 400 }
+        JSON.stringify({ message: `This ${field} is already registered` }), 
+        { status: 400, headers: { 'Content-Type': 'application/json' } }
       );
     }
 
@@ -41,9 +61,20 @@ export async function POST(request: Request) {
       }
     });
 
-    return NextResponse.json(user);
+    return NextResponse.json({
+      message: 'User created successfully',
+      user: {
+        id: user.id,
+        email: user.email,
+        username: user.username,
+        name: user.name
+      }
+    });
   } catch (error) {
-    console.log(error);
-    return new NextResponse('Internal Error', { status: 500 });
+    console.error('Registration error:', error);
+    return new NextResponse(
+      JSON.stringify({ message: 'Internal server error' }), 
+      { status: 500, headers: { 'Content-Type': 'application/json' } }
+    );
   }
 }
