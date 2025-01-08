@@ -36,18 +36,13 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
           redirect: false,
         });
         if (result?.error) {
-          setError(result.error);
+          setError('Invalid credentials');
           return;
         }
         if (result?.ok) {
           onClose();
         }
       } else {
-        if (!email || !password || !username || !name) {
-          setError('All fields are required');
-          return;
-        }
-  
         const res = await fetch('/api/register', {
           method: 'POST',
           headers: {
@@ -60,29 +55,27 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
             name,
           }),
         });
-  
-        const data = await res.json();
-  
         if (!res.ok) {
-          setError(data.message || 'Something went wrong');
-          return;
+          const data = await res.json();
+          throw new Error(data.error || 'Something went wrong');
         }
         const signInResult = await signIn('credentials', {
           email,
           password,
           redirect: false,
         });
-  
         if (signInResult?.ok) {
           onClose();
-        } else {
-          setError('Failed to sign in after registration');
         }
       }
     } catch (err) {
-      setError(err.message || 'Something went wrong');
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('Something went wrong');
+      }
     }
-  }
+  };
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
@@ -180,4 +173,4 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
       </div>
     </div>
   );
-};
+}
