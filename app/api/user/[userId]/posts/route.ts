@@ -2,11 +2,11 @@ import { NextResponse } from 'next/server';
 import prisma from '@/lib/prismadb';
 
 export async function GET(
-  request: Request,
-  { params }: { params: { userId: string } }
+  _request: Request,
+  context: { params: { userId: string } }
 ) {
   try {
-    const { userId } = params;
+    const userId = context.params.userId;
 
     if (!userId) {
       return new NextResponse('User ID is required', { status: 400 });
