@@ -1,22 +1,22 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import prisma from '@/lib/prismadb';
 import { authOptions } from '@/lib/auth';
 
 //TODO: to modify later
 
-interface RouteSegmentProps {
+type Props = {
   params: {
-    userId: string;
-  };
+    userId: string
+  }
 }
 
 export async function POST(
-  req: NextRequest,
-  context: RouteSegmentProps
-) {
+  request: Request,
+  { params }: Props
+): Promise<NextResponse> {
   try {
-    const { userId } = context.params;
+    const { userId } = params;
     const session = await getServerSession(authOptions);
     
     if (!session?.user?.email) {
