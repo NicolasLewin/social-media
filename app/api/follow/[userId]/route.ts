@@ -5,11 +5,18 @@ import { authOptions } from '@/lib/auth';
 
 //TODO: to modify later
 
+interface RouteSegmentProps {
+  params: {
+    userId: string;
+  };
+}
+
 export async function POST(
-  request: NextRequest,
-  { params }: { params: { userId: string } }
+  req: NextRequest,
+  context: RouteSegmentProps
 ) {
   try {
+    const { userId } = context.params;
     const session = await getServerSession(authOptions);
     
     if (!session?.user?.email) {
@@ -28,7 +35,7 @@ export async function POST(
 
     const userToFollow = await prisma.user.findUnique({
       where: {
-        id: params.userId
+        id: userId
       }
     });
 
@@ -38,11 +45,11 @@ export async function POST(
 
     const currentFollowingIds = currentUser.followingIds || [];
 
-    const isFollowing = currentFollowingIds.includes(params.userId);
+    const isFollowing = currentFollowingIds.includes(userId);
 
     const updatedFollowingIds = isFollowing
-      ? currentFollowingIds.filter(id => id !== params.userId)
-      : [...currentFollowingIds, params.userId];
+      ? currentFollowingIds.filter(id => id !== userId)
+      : [...currentFollowingIds, userId];
 
     const updatedUser = await prisma.user.update({
       where: {
