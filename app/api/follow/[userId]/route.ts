@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import prisma from '@/lib/prismadb';
 import { authOptions } from '@/lib/auth';
@@ -6,7 +6,7 @@ import { authOptions } from '@/lib/auth';
 //TODO: to modify later
 
 export async function POST(
-  request: Request,
+  request: NextRequest,
   { params }: { params: { userId: string } }
 ) {
   try {
