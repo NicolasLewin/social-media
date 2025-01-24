@@ -47,6 +47,12 @@ export async function POST(request: Request) {
       );
     }
 
+    if (/[@#$%^&(),.":{}|<>]/.test(password))
+      return NextResponse.json({ message: 'Password has an unsupported character' }, { status: 400 })
+
+    if(password.length < 8)
+      return NextResponse.json({ message: 'Password must be at least 8 characters' }, { status: 400 })
+
     const hashedPassword = await bcrypt.hash(password, 12);
 
     const user = await prisma.user.create({

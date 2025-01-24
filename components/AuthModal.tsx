@@ -57,7 +57,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
         });
         if (!res.ok) {
           const data = await res.json();
-          throw new Error(data.error || 'Something went wrong');
+          throw new Error(data.message || 'Something went wrong');
         }
         const signInResult = await signIn('credentials', {
           email,
