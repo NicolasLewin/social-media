@@ -24,12 +24,17 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: `
               try {
-                if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                if (!localStorage.getItem('theme')) {
+                  localStorage.setItem('theme', 'dark');
+                }
+                if (localStorage.getItem('theme') === 'dark') {
                   document.documentElement.classList.add('dark');
                 } else {
                   document.documentElement.classList.remove('dark');
                 }
-              } catch (_) {}
+              } catch (_) {
+                document.documentElement.classList.add('dark');
+              }
             `,
           }}
         />

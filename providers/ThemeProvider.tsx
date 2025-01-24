@@ -18,7 +18,10 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
   const [theme, setTheme] = useState('dark');
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme') || 'light';
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    if (!localStorage.getItem('theme')) {
+      localStorage.setItem('theme', 'dark');
+    }
     setTheme(savedTheme);
     document.documentElement.classList.toggle('dark', savedTheme === 'dark');
   }, []);
