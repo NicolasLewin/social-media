@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { X } from 'lucide-react';
 import { signIn } from 'next-auth/react';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
+import toast from 'react-hot-toast'; 
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -40,6 +41,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
           return;
         }
         if (result?.ok) {
+          toast.success("Successfully logged in!");
           onClose();
         }
       } else {
