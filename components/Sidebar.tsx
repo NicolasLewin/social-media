@@ -1,21 +1,26 @@
 "use client"
 
-import { Bell, Home, Mail, PenSquare, Search, User } from "lucide-react";
+import { Bell, Home, LogOut, Mail, PenSquare, Search, User } from "lucide-react";
 import NavItem from "@/components/NavItem";
 import { ThemeToggle } from "@/providers/ThemeProvider";
 import { useState } from "react";
 import PostModal from "./PostModal";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import AppLogo from "./AppLogo";
+import { signOut } from "next-auth/react";
 
 interface SidebarProps {
   children: React.ReactNode;
 }
 
 export default function Sidebar({ children }: SidebarProps) {
-  const { user } = useCurrentUser();
+  const { user, isAuthenticated } = useCurrentUser();
   const [isPostModalOpen, setIsPostModalOpen] = useState(false);
   
+  const handleLogout = async () => {
+    await signOut({ callbackUrl: '/' });
+  };
+
   return (
     <div className="flex min-h-screen">
       <div className="flex-none sticky top-0 h-screen">
@@ -30,6 +35,13 @@ export default function Sidebar({ children }: SidebarProps) {
               <NavItem icon={Bell} label="Notifications" />
               <NavItem icon={Mail} label="Messages" />
               <NavItem icon={User} label="Profile" href={user ? `/user/${user.id}` : '/'} />
+              {isAuthenticated && (
+                <NavItem 
+                  icon={LogOut} 
+                  label="Logout" 
+                  onClick={handleLogout}
+                />
+              )}
             </div>
             <button 
               onClick={() => setIsPostModalOpen(true)} 
